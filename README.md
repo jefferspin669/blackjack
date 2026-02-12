@@ -5,7 +5,7 @@ An interactive browser-based Blackjack game featuring a AI dealer with dynamic d
 
 Built with vanilla HTML, CSS, and JavaScript.
 
-##🎮 Features
+#🎮 Features
 
 🎴 Fully playable Blackjack game
 
