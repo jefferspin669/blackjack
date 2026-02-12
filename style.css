@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: url('https://images.unsplash.com/photo-1567016432779-7d1f1b5c8f3c?auto=format&fit=crop&w=1470&q=80') 
+        no-repeat center center / cover;
+    font-family: Arial, sans-serif;
+}
+
+/* NEW */
+#board-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;   /* horizontal center */
+    align-items: center;       /* vertical center */
+    position: relative;
+}
+
+/* keep menu & game same size */
+#menu, #game {
+    width: 450px;
+}
+.falling-chip {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: radial-gradient(circle, gold, orange);
+    animation: fall 2.5s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.card {
+    width: 80px;
+    margin: 5px;
+    animation: slideIn 0.3s ease-out;
+}
+

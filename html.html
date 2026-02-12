@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blackjack</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: url('https://images.unsplash.com/photo-1567016432779-7d1f1b5c8f3c?auto=format&fit=crop&w=1470&q=80')
+        no-repeat center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+#menu, #game {
+    background: rgba(0,0,0,0.85);
+    border: 3px solid gold;
+    border-radius: 20px;
+    padding: 40px;
+    width: 450px;
+    text-align: center;
+    box-shadow: 0 0 30px gold;
+}
+
+h1 { color: gold; }
+button {
+    padding: 10px 20px;
+    margin: 8px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.start-btn { background: gold; font-weight: bold; }
+
+.card {
+    width: 80px;
+    margin: 5px;
+}
+
+#chip-container {
+    position: absolute;
+    width: 100%;
+    height: 0;
+}
+
+.falling-chip {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid white;
+    animation: fall 1s ease-out forwards;
+    background: radial-gradient(circle, gold, orange);
+}
+
+@keyframes fall {
+    from { transform: translateY(-50px); opacity: 0; }
+    to   { transform: translateY(150px); opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="menu">
+    <h1>🎴 Blackjack 🎴</h1>
+    <p id="bank">Bank: $100</p>
+    <input id="bet-input" type="number" placeholder="Enter bet" min="1">
+    <br><br>
+    <button id="start-button" class="start-btn">Start Game</button>
+</div>
+
+<div id="game" style="display:none;">
+    <h3>Player</h3>
+    <div id="player-cards"></div>
+    <p id="player-score"></p>
+
+    <h3>Dealer</h3>
+    <div id="dealer-cards"></div>
+    <p id="dealer-score"></p>
+
+    <button id="hit-button">Hit</button>
+    <button id="stand-button">Stand</button>
+    <button id="restart-button" style="display:none;">Restart</button>
+
+    <p id="status"></p>
+</div>
+
+<div id="chip-container"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+let bank = 100;
+let currentBet = 0;
+let deck = [];
+let playerHand = [];
+let dealerHand = [];
+
+const suits = ["Hearts","Diamonds","Clubs","Spades"];
+const ranks = ["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"];
+
+const bankText = document.getElementById("bank");
+const betInput = document.getElementById("bet-input");
+const menu = document.getElementById("menu");
+const game = document.getElementById("game");
+
+const playerDiv = document.getElementById("player-cards");
+const dealerDiv = document.getElementById("dealer-cards");
+
+const playerScoreText = document.getElementById("player-score");
+const dealerScoreText = document.getElementById("dealer-score");
+const statusText = document.getElementById("status");
+
+const hitBtn = document.getElementById("hit-button");
+const standBtn = document.getElementById("stand-button");
+const restartBtn = document.getElementById("restart-button");
+
+/* ---------- Deck ---------- */
+function createDeck() {
+    deck = [];
+    for (let s of suits)
+        for (let r of ranks)
+            deck.push({ suit: s, rank: r });
+}
+
+function shuffleDeck() {
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+}
+
+function drawCard() {
+    return deck.pop();
+}
+
+function cardValue(card) {
+    if (card.rank === "Ace") return 11;
+    if (["King","Queen","Jack"].includes(card.rank)) return 10;
+    return parseInt(card.rank);
+}
+
+function handValue(hand) {
+    let total = 0, aces = 0;
+    hand.forEach(c => {
+        total += cardValue(c);
+        if (c.rank === "Ace") aces++;
+    });
+    while (total > 21 && aces--) total -= 10;
+    return total;
+}
+
+function cardCode(card) {
+    let r = card.rank;
+    if (r === "10") r = "0";
+    if (r === "Jack") r = "J";
+    if (r === "Queen") r = "Q";
+    if (r === "King") r = "K";
+    if (r === "Ace") r = "A";
+    return r + card.suit[0];
+}
+
+function renderHand(div, hand, hideSecond=false) {
+    div.innerHTML = "";
+    hand.forEach((c,i) => {
+        const img = document.createElement("img");
+        img.className = "card";
+        img.src = hideSecond && i === 1
+            ? "https://deckofcardsapi.com/static/img/back.png"
+            : `https://deckofcardsapi.com/static/img/${cardCode(c)}.png`;
+        div.appendChild(img);
+    });
+}
+
+/* ---------- Game ---------- */
+document.getElementById("start-button").onclick = () => {
+    const bet = parseInt(betInput.value);
+    if (!bet || bet > bank) return alert("Invalid bet");
+
+    currentBet = bet;
+    bank -= bet;
+    bankText.textContent = `Bank: $${bank}`;
+
+    createDeck();
+    shuffleDeck();
+
+    playerHand = [drawCard(), drawCard()];
+    dealerHand = [drawCard(), drawCard()];
+
+    menu.style.display = "none";
+    game.style.display = "block";
+
+    renderHand(playerDiv, playerHand);
+    renderHand(dealerDiv, dealerHand, true);
+
+    playerScoreText.textContent = `Score: ${handValue(playerHand)}`;
+    dealerScoreText.textContent = `Score: ${cardValue(dealerHand[0])}`;
+};
+
+hitBtn.onclick = () => {
+    playerHand.push(drawCard());
+    renderHand(playerDiv, playerHand);
+    playerScoreText.textContent = `Score: ${handValue(playerHand)}`;
+    if (handValue(playerHand) > 21) endGame("Bust! Dealer wins 😢");
+};
+
+standBtn.onclick = () => {
+    renderHand(dealerDiv, dealerHand);
+    while (handValue(dealerHand) < 17)
+        dealerHand.push(drawCard());
+
+    renderHand(dealerDiv, dealerHand);
+    dealerScoreText.textContent = `Score: ${handValue(dealerHand)}`;
+
+    const p = handValue(playerHand);
+    const d = handValue(dealerHand);
+
+    if (d > 21 || p > d) {
+        bank += currentBet * 2;
+        spawnChips();
+        endGame("You win 🎉");
+    } else if (d > p) {
+        endGame("Dealer wins 😢");
+    } else {
+        bank += currentBet;
+        endGame("Push 🤝");
+    }
+    bankText.textContent = `Bank: $${bank}`;
+};
+
+function endGame(msg) {
+    statusText.textContent = msg;
+    hitBtn.disabled = true;
+    standBtn.disabled = true;
+    restartBtn.style.display = "inline-block";
+}
+
+restartBtn.onclick = () => location.reload();
+
+/* ---------- Chips ---------- */
+function spawnChips() {
+    const container = document.getElementById("chip-container");
+    for (let i = 0; i < 8; i++) {
+        const chip = document.createElement("div");
+        chip.className = "falling-chip";
+        chip.style.left = Math.random()*80 + "%";
+        container.appendChild(chip);
+        chip.onanimationend = () => chip.remove();
+    }
+}
+
+});
+</script>
+
+</body>
+</html>

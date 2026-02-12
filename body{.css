@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(#111, #333);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    color: white;
+}
+
+#menu, #game, #rules {
+    background: #1b1b1b;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px black;
+    text-align: center;
+}
+
+button {
+    padding: 12px 30px;
+    margin: 8px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.chips {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.chip {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-weight: bold;
+    background: radial-gradient(circle, #ff4444, #aa0000);
+    color: white;
+    border: 3px solid white;
+}
+
+.card {
+    animation: deal 0.4s ease-out;
+}
+
+@keyframes deal {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+
