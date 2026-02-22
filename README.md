@@ -1,29 +1,29 @@
 # blackjack
-🃏 Blackjack Night – Featuring Dealer.exe
+ Blackjack Night – Featuring Dealer.exe
 
 An interactive browser-based Blackjack game featuring a AI dealer with dynamic dialogue, animated gameplay, and a stylized arcade-inspired interface.
 
 Built with vanilla HTML, CSS, and JavaScript.
 
-#🎮 Features
+# Features
 
-🎴 Fully playable Blackjack game
+ Fully playable Blackjack game
 
-🎲 Dealer logic (hits until 17)
+ Dealer logic (hits until 17)
 
-💬 Context-aware responses (win, lose, bust, push)
+ Context-aware responses (win, lose, bust, push)
 
-🎨 Stylized cartoon / arcade-inspired UI
+ Stylized cartoon / arcade-inspired UI
 
-💰 Betting system with balance tracking
+ Betting system with balance tracking
 
-💾 LocalStorage support for saved balance
+ LocalStorage support for saved balance
 
-✨ Animated card dealing
+ Animated card dealing
 
-🎉 Visual win/lose feedback
+ Visual win/lose feedback
 
-🧠 Game Logic
+ Game Logic
 
 Player and dealer are dealt two cards
 
@@ -47,7 +47,7 @@ Blackjack = 21 with first two cards
 
 Push = tie
 
-🎭 Dealer Personality – “Dealer.exe”
+ Dealer Personality – “Dealer.exe”
 
 This project adds personality to traditional Blackjack by introducing a sarcastic AI dealer.
 
@@ -61,7 +61,7 @@ This project adds personality to traditional Blackjack by introducing a sarcasti
 
 The dialogue changes dynamically based on game outcomes.
 
-🛠 Tech Stack
+ Tech Stack
 
 HTML5
 
@@ -73,7 +73,7 @@ LocalStorage API
 
 No frameworks used — built from scratch to strengthen core JavaScript fundamentals.
 
-💡 What This Project Demonstrates
+ What This Project Demonstrates
 
 State management in JavaScript
 
@@ -89,7 +89,7 @@ UX-focused design thinking
 
 Personality-driven interface design
 
-🚀 Future Improvements
+ Future Improvements
 
 Sound effects (card flip, win/lose audio)
 
@@ -103,7 +103,7 @@ Leaderboard system
 
 Mobile UI refinements
 
-📌 Why I Built This
+ Why I Built This
 
 I wanted to create more than just a basic JavaScript project.
 This game focuses on combining logic, UI design, animation, and personality to create a more engaging user experience.
