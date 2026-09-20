@@ -1,0 +1,31 @@
+{
+  "profile": {
+    "name": "You",
+    "bestBankroll": 1115,
+    "roundsPlayed": 1,
+    "achievements": [],
+    "lastSeen": "2026-07-12T01:18:48.348384+00:00"
+  },
+  "leaderboard": [
+    {
+      "name": "Vegas Vinnie",
+      "bankroll": 2200,
+      "rounds": 18
+    },
+    {
+      "name": "Card Shark Carla",
+      "bankroll": 1850,
+      "rounds": 16
+    },
+    {
+      "name": "Lucky Larry",
+      "bankroll": 1325,
+      "rounds": 12
+    },
+    {
+      "name": "You",
+      "bankroll": 1115,
+      "rounds": 1
+    }
+  ]
+}
